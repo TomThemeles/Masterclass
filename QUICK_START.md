@@ -39,9 +39,3 @@ mae = mean_absolute_error(y_true, y_pred)
 rmse = np.sqrt(mean_squared_error(y_true, y_pred))
 mape = mean_absolute_percentage_error(y_true, y_pred) * 100
 ```
-
-## Need Help?
-
-- Prophet docs: https://facebook.github.io/prophet/
-- Statsmodels docs: https://www.statsmodels.org/
-- Instructor: tom.t@faculty.masterschool.com
