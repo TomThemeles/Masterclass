@@ -38,23 +38,11 @@ A 10% improvement in forecast accuracy can lead to:
 ## 📊 Data Overview
 
 ### Datasets Used
-1. **train.csv** - Main sales data (300,000+ records)
-   - Date range: January 2013 - August 2017 (1,680 days)
-   - Contains: store_nbr, item_nbr, date, unit_sales, onpromotion
+1. **train.csv**
 
-2. **Additional datasets** (for feature engineering):
-   - holidays_events.csv - Holiday calendar
-   - oil.csv - Daily oil prices
-   - stores.csv - Store information
-   - items.csv - Product information
-   - transactions.csv - Daily transaction counts
+2. **Additional datasets**
 
 ### Key Statistics
-- **Total observations**: 300,000+ records
-- **Time period**: 4.5+ years
-- **Daily aggregated sales**: ~1,680 days
-- **Average daily sales**: ~55,000-65,000 units
-- **Memory usage**: ~44 MB total
 
 ### Data Limitations
 - Some missing values in certain periods
@@ -69,25 +57,15 @@ A 10% improvement in forecast accuracy can lead to:
 ### Approach
 1. **Data Preparation**
    - Aggregated sales by date
-   - Handled missing values through forward fill
-   - Created time-based features
 
 2. **Exploratory Data Analysis**
    - Analyzed trends and seasonality
-   - Identified patterns in weekly/monthly cycles
-   - Examined promotional effects
 
 3. **Feature Engineering**
    - Lag features (7-day, 14-day averages)
-   - Rolling statistics
-   - Day of week indicators
-   - Holiday flags
-   - Promotion indicators
 
 4. **Model Development**
    - Trained three different forecasting models
-   - Used consistent train/test split (80/20)
-   - Applied same evaluation metrics across all models
 
 ### Models Tested
 1. **Prophet** - Facebook's forecasting tool designed for business time series
@@ -107,11 +85,6 @@ A 10% improvement in forecast accuracy can lead to:
 
 ### Performance Summary
 
-| Model | MAE | RMSE | MAPE (%) | Training Time |
-|-------|-----|------|----------|---------------|
-| **Prophet** | 4,523 | 6,234 | 8.2% | 00:45 |
-| **Exponential Smoothing** | 5,891 | 7,456 | 10.7% | 00:02 |
-| **ARIMA** | 6,234 | 8,123 | 11.3% | 03:24 |
 
 ### 🥇 Best Model: Prophet
 
@@ -123,11 +96,6 @@ A 10% improvement in forecast accuracy can lead to:
 5. **Reasonable training time** - Not too slow for regular retraining
 6. **Easy to extend** - Can easily add holidays, events, and external regressors
 
-**Key Insights:**
-- Prophet's automatic seasonality detection captured the weekly shopping patterns effectively
-- The model identified strong end-of-month and holiday spikes
-- Confidence intervals provide useful uncertainty estimates for business planning
-- The trend component shows gradual sales growth over time
 
 ### Model Complexity Assessment
 
@@ -170,139 +138,6 @@ pip install -r requirements.txt
 2. Upload the notebook you want to run from the `notebooks/` folder
 3. Upload `train.csv` using the file upload button 📁 in Colab
 4. Run all cells sequentially
-
-**Note:** For ARIMA model, consider using T4 GPU runtime:
-- Click RAM/Disk dropdown → "Change runtime type" → Select "T4 GPU"
-
----
-
-## 📖 How to Use the Models
-
-### 1. Data Preparation (`data_prep.ipynb`)
-**Purpose:** Load and prepare data, perform EDA, engineer features
-
-**Steps:**
-1. Upload `train.csv` to Colab
-2. Run all cells in sequence
-3. Examine the visualizations to understand patterns
-4. Note any data quality issues mentioned
-
-**Output:** Clean dataset ready for modeling
-
----
-
-### 2. Prophet Model (`model_prophet.ipynb`)
-**Purpose:** Train and evaluate Prophet forecasting model
-
-**Steps:**
-1. Upload `train.csv`
-2. Run cells to prepare data in Prophet format (ds, y columns)
-3. Train the model (takes ~45 seconds)
-4. Review forecast visualizations
-5. Check evaluation metrics
-
-**Key Parameters:**
-- `yearly_seasonality=True` - Captures annual patterns
-- `weekly_seasonality=True` - Captures weekly patterns
-- `daily_seasonality=False` - Not needed for daily aggregated data
-
-**Output:** 60-day forecast with confidence intervals
-
----
-
-### 3. Exponential Smoothing Model (`model_exponential_smoothing.ipynb`)
-**Purpose:** Train Holt-Winters exponential smoothing model
-
-**Steps:**
-1. Upload `train.csv`
-2. Run cells to aggregate and prepare time series
-3. Select seasonal period (7 for weekly patterns)
-4. Choose additive or multiplicative model
-5. Train model (very fast - 2 seconds)
-6. Review predictions and metrics
-
-**Key Parameters:**
-- `seasonal_periods=7` - Weekly seasonality
-- `trend='add'` - Additive trend
-- `seasonal='add'` - Additive seasonality
-
-**Output:** Forecast with trend and seasonal components
-
----
-
-### 4. ARIMA Model (`model_arima.ipynb`)
-**Purpose:** Train ARIMA statistical model
-
-**Steps:**
-1. Upload `train.csv`
-2. Aggregate data (use weekly or monthly to speed up)
-3. Check stationarity using ADF test
-4. Select ARIMA parameters (p, d, q)
-5. Train model (can take 3-5 minutes)
-6. Generate forecasts
-
-**Key Parameters:**
-- `order=(1,1,1)` - Basic ARIMA configuration
-- `seasonal_order=(1,1,1,7)` - Seasonal ARIMA for weekly patterns
-
-**Note:** This model is slower and may require parameter tuning for optimal results
-
----
-
-## 🎨 Visualizations
-
-Key visualizations generated:
-- **Time series plots** - Historical sales patterns
-- **Seasonal decomposition** - Trend, seasonal, residual components
-- **Forecast plots** - Predictions with confidence intervals
-- **Actual vs Predicted** - Model performance visualization
-- **Component plots** - Breaking down the forecast
-
-All visualizations are saved in the `visualizations/` folder.
-
----
-
-## 🔮 Future Improvements
-
-### Short-term Enhancements
-1. **Add external regressors** to Prophet:
-   - Oil prices
-   - Holiday indicators
-   - Promotional events
-   - Transaction counts
-
-2. **Fine-tune hyperparameters**:
-   - Prophet seasonality modes
-   - ARIMA order selection using auto_arima
-   - Exponential smoothing initialization
-
-3. **Feature engineering**:
-   - Store-specific trends
-   - Product category effects
-   - Weather data integration
-
-### Long-term Improvements
-1. **Advanced models to explore**:
-   - **XGBoost with time series features** - Gradient boosting
-   - **LSTM Neural Networks** - Deep learning for sequences
-   - **Ensemble methods** - Combine multiple models
-
-2. **Product-level forecasting**:
-   - Individual SKU predictions
-   - Hierarchical forecasting
-   - Product similarity clustering
-
-3. **Real-time forecasting**:
-   - Automated daily retraining
-   - Online learning approaches
-   - Streaming data pipeline
-
-4. **Business integration**:
-   - Automated alert system for forecast anomalies
-   - API for model serving
-   - Dashboard for stakeholders
-
----
 
 ## 📁 Repository Structure
 
@@ -359,37 +194,3 @@ See `requirements.txt` for complete list with versions.
 
 ---
 
-## 📞 Contact
-
-**Author:** [Your Name]  
-**Email:** [optional - your.email@example.com]  
-**LinkedIn:** [optional - your LinkedIn profile]  
-**GitHub:** [your GitHub username]
-
----
-
-## 📄 License
-
-This project was created as part of Masterschool's Data Analytics program. The code is available for educational purposes.
-
----
-
-## 🙏 Acknowledgments
-
-- **Masterschool** - For providing the assignment framework
-- **Facebook/Meta** - For the Prophet forecasting tool
-- **Data Source** - Ecuadorian retail sales dataset
-- **Instructor** - Tom T. (tom.t@faculty.masterschool.com)
-
----
-
-## 📚 Additional Resources
-
-- [Prophet Documentation](https://facebook.github.io/prophet/)
-- [ARIMA Tutorial](https://www.statsmodels.org/stable/generated/statsmodels.tsa.arima.model.ARIMA.html)
-- [Exponential Smoothing Guide](https://www.statsmodels.org/stable/examples/notebooks/generated/exponential_smoothing.html)
-- [Time Series Forecasting Best Practices](https://otexts.com/fpp3/)
-
----
-
-**⭐ If you find this project helpful, please star the repository!**
