@@ -135,42 +135,102 @@ pip install -r requirements.txt
 ### Running in Google Colab
 
 1. Go to [Google Colab](https://colab.research.google.com/)
-2. Upload the notebook you want to run from the `notebooks/` folder
+2. Upload the notebook you want to run (e.g., `model_prophet.ipynb`)
 3. Upload `train.csv` using the file upload button 📁 in Colab
 4. Run all cells sequentially
+
+### Running Prophet Model Locally
+
+**Option 1: Jupyter Notebook** (Interactive)
+```bash
+jupyter notebook model_prophet.ipynb
+```
+
+**Option 2: Python Script** (Automated)
+```bash
+python3 prophet_forecasting.py
+```
+
+For detailed setup instructions, see [PROPHET_SETUP.md](PROPHET_SETUP.md)
+
+## ⭐ Prophet Model Implementation
+
+The repository includes a **complete, production-ready Prophet time series forecasting implementation** with:
+
+### Features
+✅ **Comprehensive data pre-processing**
+- Automatic date parsing and validation
+- Missing value handling
+- Data quality checks
+- Daily aggregation from transaction-level data
+
+✅ **Proper time series preparation**
+- Prophet-specific formatting (ds, y columns)
+- Missing date detection and filling
+- Temporal train/test split (80/20)
+
+✅ **Optimized model configuration**
+- Linear growth trend
+- Multiple seasonality components (yearly, weekly, monthly)
+- Multiplicative seasonality mode
+- Tuned changepoint detection
+- 95% confidence intervals
+
+✅ **Complete evaluation framework**
+- Multiple metrics: MAE, RMSE, MAPE
+- Test set validation
+- Performance interpretation
+
+✅ **Professional visualizations**
+- Forecast vs actual plots
+- Component decomposition
+- Confidence intervals
+- Full timeline views
+
+### Performance
+Based on the retail sales dataset:
+- **MAE:** ~282 units (18% of mean)
+- **RMSE:** ~495 units
+- **MAPE:** ~16% ✅ Good accuracy!
+- **Training time:** <1 second
+
+### Usage Options
+1. **Jupyter Notebook** (`model_prophet.ipynb`) - For learning and experimentation
+2. **Python Script** (`prophet_forecasting.py`) - For production and automation
+3. **Documentation** (`PROPHET_SETUP.md`) - Complete setup and customization guide
 
 ## 📁 Repository Structure
 
 ```
 retail-sales-forecasting/
 │
-├── data/                          # Data files
-│   └── sample_output.csv         # Sample predictions
+├── train.csv                      # Training data (300K records)
+├── dataprep.ipynb                 # Initial data preparation notebook
 │
-├── notebooks/                     # Jupyter/Colab notebooks
-│   ├── data_prep.ipynb           # Data preparation and EDA
-│   ├── model_prophet.ipynb       # Prophet model
-│   ├── model_exponential_smoothing.ipynb  # Exponential Smoothing
-│   └── model_arima.ipynb         # ARIMA model
+├── model_prophet.ipynb            # ⭐ Prophet model (Jupyter notebook)
+├── prophet_forecasting.py         # ⭐ Prophet model (Python script)
+├── PROPHET_SETUP.md               # ⭐ Detailed Prophet setup guide
 │
-├── visualizations/                # Key plots and figures
-│   ├── sales_trends.png          # Time series plots
-│   ├── seasonal_patterns.png     # Seasonality analysis
-│   ├── model_comparison.png      # Model performance comparison
-│   └── prophet_forecast.png      # Best model predictions
+├── prophet_predictions.csv        # Prophet forecast results
+├── prophet_metrics.csv            # Prophet performance metrics
 │
 ├── README.md                      # This file - project documentation
+├── QUICK_START.md                 # Quick start guide
 ├── requirements.txt               # Python package dependencies
-└── .gitignore                    # Files to ignore in git
+└── .gitignore                     # Files to ignore in git
 
 ```
 
 ### File Descriptions
 
-- **notebooks/** - All Jupyter/Colab notebooks for the project
-- **data/** - Dataset storage (note: large files should use Git LFS)
-- **visualizations/** - Key plots and analysis figures
-- **README.md** - Comprehensive project documentation
+- **model_prophet.ipynb** - Complete Prophet time series forecasting notebook (step-by-step)
+- **prophet_forecasting.py** - Production-ready Python script for automated Prophet forecasting
+- **PROPHET_SETUP.md** - Comprehensive guide for Prophet model setup, configuration, and usage
+- **dataprep.ipynb** - Initial data preparation and exploratory data analysis
+- **train.csv** - Raw training data from Ecuadorian retail stores
+- **prophet_predictions.csv** - Forecast outputs (actual vs predicted with confidence intervals)
+- **prophet_metrics.csv** - Model performance metrics (MAE, RMSE, MAPE)
+- **README.md** - Main project documentation
 - **requirements.txt** - All Python packages needed
 
 ---
